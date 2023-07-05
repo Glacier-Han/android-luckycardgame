@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.glacier.luckycardgamesofteer.adapter.CardAdapter
@@ -19,7 +20,6 @@ import com.glacier.luckycardgamesofteer.model.Participant
 class MainActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-    private lateinit var cardList : MutableList<Card>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +36,10 @@ class MainActivity : AppCompatActivity() {
         binding.mbToggle.addOnButtonCheckedListener { toggleButton, checkedId, isChecked ->
             if(isChecked){
                 // 명수가 변경될 때 마다 카드를 새로 뽑는다
-                pickCard(initCard())
+                var cardList = initCard()
+
+                // 뽑은 카드를 한번 섞는다
+                cardList.shuffle()
 
                 when (checkedId){
                     R.id.button1 -> {
@@ -47,36 +50,29 @@ class MainActivity : AppCompatActivity() {
                         binding.button2.icon = null
                         binding.button3.icon = null
 
-                        // Share Cards
-                        // 12번 카드 3개 제외
-                        cardList.dropLast(3)
-
-                        // 카드 섞기
-                        cardList.shuffle()
-
-                        // 참가자들에게 카드 나눠주기
-                        val participant1 = Participant("1")
-                        participant1.addAllCard(cardList.take(8))
-
-                        val participant2 = Participant("2")
-                        participant2.addAllCard(cardList.take(8))
-
-                        val participant3 = Participant("3")
-                        participant3.addAllCard(cardList.take(8))
-
-                        val etcCards = Participant("0")
-                        etcCards.addAllCard(cardList.take(9))
+                        // share cards
+                        val participants = shareCard(cardList, 3)
 
                         // recyclerview 어댑터 설정
-                        val cardAdapter = CardAdapter(participant1.getCards())
-                        val linearLayoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
-
                         binding.rv1.apply {
-                            layoutManager = linearLayoutManager
-                            adapter = cardAdapter
+                            layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
+                            adapter = CardAdapter(participants[0].getCards(), true)
                         }
 
+                        binding.rv2.apply {
+                            layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
+                            adapter = CardAdapter(participants[1].getCards(), false)
+                        }
 
+                        binding.rv3.apply {
+                            layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
+                            adapter = CardAdapter(participants[2].getCards(), false)
+                        }
+
+                        binding.rv0.apply {
+                            layoutManager = GridLayoutManager(applicationContext, 5)
+                            adapter = CardAdapter(participants[3].getCards(), false)
+                        }
 
                     }
                     R.id.button2 -> {
@@ -105,7 +101,7 @@ class MainActivity : AppCompatActivity() {
     fun initCard(): MutableList<Card> {
 
         // 12개의 전체 카드 객체를 저장하기 위한 MutableList 선언
-        cardList = mutableListOf()
+        val cardList = mutableListOf<Card>()
 
         // AnimalInfo enum중 랜덤하게 뽑은 카드를 총 12개 생성 후 리스트에 담는다. 숫자는 1~12로 지정
         for(i in 1..12){
@@ -129,9 +125,59 @@ class MainActivity : AppCompatActivity() {
         Log.d("ShowCard", results.dropLast(2))
     }
 
-    fun dp2px(ctx: Context, dp: Float): Int {
-        val scale = ctx.resources.displayMetrics.density
-        return (dp * scale + 0.5f).toInt()
+    fun shareCard(cardList_:MutableList<Card>, numOfParticipants: Int): MutableList<Participant>{
+        val participantList = mutableListOf<Participant>()
+
+        // 카드들을 수정할일이 생기기 때문에 (나누어 주는 과정) 깊은 복사를 하여 새로운 리스트로 만듦
+        var cardList = mutableListOf<Card>()
+        cardList.addAll(cardList_)
+
+        // 3명일때는 12번 카드는 제외시켜야함.
+        if(numOfParticipants == 3){
+            cardList = cardList.filter { it.num != 12 } as MutableList<Card>
+        }
+
+        // 참가자 한명당 카드를 배분함
+        for (i in 1..numOfParticipants) {
+            // 참가자 객체 생성
+            val participant = Participant(i.toString())
+
+            // 총 참가자 수에 따라 나누어 주는 카드 갯수가 다르기 때문에 분기
+            val numCardsPerParticipant = when (numOfParticipants) {
+                3 -> 8
+                4 -> 7
+                5 -> 6
+                else -> 0
+            }
+
+            // 카드 중에서 정해진 갯수만큼 들고온 다음, 뽑힌 카드는 삭제함
+            participant.addAllCard(cardList.take(numCardsPerParticipant))
+            cardList = cardList.drop(numCardsPerParticipant) as MutableList<Card>
+
+            // 참가자 생성 후 참가자 리스트에 추가함
+            participantList.add(participant)
+            participant.showCards()
+        }
+
+        // 마찬가지로 남은 카드 갯수가 총 참가자 명수에 따라 다르기 때문에 분기
+        val numOfRemainCards = when (numOfParticipants) {
+            3 -> 9
+            4 -> 8
+            5 -> 6
+            else -> 0
+        }
+
+        // 남은 카드 따로 모으기
+        val remainCards = Participant("0")
+
+        // 마지막으로 남은 카드들을 저장
+        remainCards.addAllCard(cardList.take(numOfRemainCards))
+
+        // 남은 카드 또한 참가자 리스트에 넣고 최종 리턴
+        participantList.add(remainCards)
+        remainCards.showCards()
+
+        return participantList
     }
 
 }

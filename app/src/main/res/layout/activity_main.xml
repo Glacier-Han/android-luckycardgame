@@ -237,6 +237,7 @@
         android:layout_marginTop="15dp"
         app:cardBackgroundColor="#606060"
         app:cardCornerRadius="15dp"
+        app:layout_constraintHeight_min="160dp"
         app:layout_constraintBottom_toBottomOf="@id/gl_bottom"
         app:layout_constraintEnd_toEndOf="@id/gl_right"
         app:layout_constraintStart_toStartOf="@id/gl_left"
@@ -249,6 +250,14 @@
             android:paddingVertical="25dp"
             android:text=""
             android:textSize="30dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="3dp" />
 
     </androidx.cardview.widget.CardView>
 
