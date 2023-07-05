@@ -27,11 +27,13 @@ class CardAdapter(private val cards: List<Card>, private val isFront: Boolean) :
     inner class ViewHolder(private val binding: ItemCardBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(card: Card) {
 
+            /*
+            // 카드 잘 나오는지 테스트용
             binding.tvAnimal.text = card.animalType.unicode
             binding.tvNumBottom.text = card.num.toString()
             binding.tvNumTop.text = card.num.toString()
+             */
 
-            /*
             if(isFront){
                 binding.ivBack.visibility = View.GONE
                 binding.tvAnimal.text = card.animalType.unicode
@@ -43,7 +45,7 @@ class CardAdapter(private val cards: List<Card>, private val isFront: Boolean) :
                 binding.tvNumBottom.visibility = View.GONE
                 binding.tvNumTop.visibility = View.GONE
             }
-            */
+
 
         }
     }

@@ -41,6 +41,13 @@ class MainActivity : AppCompatActivity() {
 //        }
 //        binding.rv0.addItemDecoration(spaceDecoration)
 
+        val decoration3 = OverlapDecoration(-60)
+        binding.rv1.addItemDecoration(decoration3)
+        binding.rv2.addItemDecoration(decoration3)
+        binding.rv3.addItemDecoration(decoration3)
+        binding.rv4.addItemDecoration(decoration3)
+        binding.rv5.addItemDecoration(decoration3)
+
         binding.mbToggle.addOnButtonCheckedListener { toggleButton, checkedId, isChecked ->
             if(isChecked){
                 // 명수가 변경될 때 마다 카드를 새로 뽑는다
@@ -148,7 +155,7 @@ class MainActivity : AppCompatActivity() {
 
             // 참가자 생성 후 참가자 리스트에 추가함
             participantList.add(participant)
-            participant.showCards()
+            //participant.showCards()
         }
 
         // 마찬가지로 남은 카드 갯수가 총 참가자 명수에 따라 다르기 때문에 분기
@@ -167,7 +174,7 @@ class MainActivity : AppCompatActivity() {
 
         // 남은 카드 또한 참가자 리스트에 넣고 최종 리턴
         participantList.add(remainCards)
-        remainCards.showCards()
+        //remainCards.showCards()
 
         return participantList
     }
