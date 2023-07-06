@@ -1,12 +1,14 @@
 package com.glacier.luckycardgamesofteer
 
-import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.glacier.luckycardgamesofteer.adapter.CardAdapter
@@ -19,7 +21,6 @@ import com.glacier.luckycardgamesofteer.model.Participant
 class MainActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-    private lateinit var cardList : MutableList<Card>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,80 +32,78 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun init(){
-        // https://selfish-developer.com/entry/%EA%B2%B9%EC%B9%98%EB%8A%94-recyclerview-%EB%A7%8C%EB%93%A4%EA%B8%B0
 
-        binding.mbToggle.addOnButtonCheckedListener { toggleButton, checkedId, isChecked ->
+        // 참가자카드 리사이클러뷰 아이템 겹치게 보이기
+        val deco = OverlapDecoration()
+
+        // 남은카드 리사이클러뷰 아이템 동일간격으로 펼치기
+        val spaceDeco = object : RecyclerView.ItemDecoration() {
+            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+                when(state.itemCount){
+                    7 -> outRect.set(30, 10, 30, 10)
+                    9 -> outRect.set(10,10,10,10)
+                }
+            }
+        }
+
+        binding.rv0.addItemDecoration(spaceDeco)
+        binding.rv1.addItemDecoration(deco)
+        binding.rv2.addItemDecoration(deco)
+        binding.rv3.addItemDecoration(deco)
+        binding.rv4.addItemDecoration(deco)
+        binding.rv5.addItemDecoration(deco)
+
+        binding.mbToggle.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if(isChecked){
                 // 명수가 변경될 때 마다 카드를 새로 뽑는다
-                pickCard(initCard())
+                var cardList = initCard()
+
+                // 뽑은 카드를 한번 섞는다
+                cardList.shuffle()
 
                 when (checkedId){
-                    R.id.button1 -> {
+                    R.id.btn_3people -> {
                         binding.cv5.visibility = View.GONE
                         binding.cv4.visibility = View.INVISIBLE
+                        binding.btn3people.icon = AppCompatResources.getDrawable(applicationContext, R.drawable.baseline_check_24)
+                        binding.btn4people.icon = null
+                        binding.btn5people.icon = null
 
-                        binding.button1.icon = AppCompatResources.getDrawable(applicationContext, R.drawable.baseline_check_24)
-                        binding.button2.icon = null
-                        binding.button3.icon = null
-
-                        // Share Cards
-                        // 12번 카드 3개 제외
-                        cardList.dropLast(3)
-
-                        // 카드 섞기
-                        cardList.shuffle()
-
-                        // 참가자들에게 카드 나눠주기
-                        val participant1 = Participant("1")
-                        participant1.addAllCard(cardList.take(8))
-
-                        val participant2 = Participant("2")
-                        participant2.addAllCard(cardList.take(8))
-
-                        val participant3 = Participant("3")
-                        participant3.addAllCard(cardList.take(8))
-
-                        val etcCards = Participant("0")
-                        etcCards.addAllCard(cardList.take(9))
-
-                        // recyclerview 어댑터 설정
-                        val cardAdapter = CardAdapter(participant1.getCards())
-                        val linearLayoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
-
-                        binding.rv1.apply {
-                            layoutManager = linearLayoutManager
-                            adapter = cardAdapter
-                        }
-
-
-
+                        // 참가자 3, 4명일때는 남은 카드 뷰가 크게 보여야 하기때문에 weight 변경
+                        setLayoutWeight(binding.cvEnd, 0.8f)
+                        setCardRecyclerView(cardList, 3)
                     }
-                    R.id.button2 -> {
+                    R.id.btn_4people -> {
                         binding.cv5.visibility = View.GONE
                         binding.cv4.visibility = View.VISIBLE
+                        binding.btn3people.icon = null
+                        binding.btn4people.icon = AppCompatResources.getDrawable(applicationContext, R.drawable.baseline_check_24)
+                        binding.btn5people.icon = null
 
-                        binding.button1.icon = null
-                        binding.button2.icon = AppCompatResources.getDrawable(applicationContext, R.drawable.baseline_check_24)
-                        binding.button3.icon = null
+                        setLayoutWeight(binding.cvEnd, 0.8f)
+                        setCardRecyclerView(cardList, 4)
                     }
-                    R.id.button3 -> {
+                    R.id.btn_5people -> {
                         binding.cv5.visibility = View.VISIBLE
                         binding.cv4.visibility = View.VISIBLE
+                        binding.btn3people.icon = null
+                        binding.btn4people.icon = null
+                        binding.btn5people.icon = AppCompatResources.getDrawable(applicationContext, R.drawable.baseline_check_24)
 
-                        binding.button1.icon = null
-                        binding.button2.icon = null
-                        binding.button3.icon = AppCompatResources.getDrawable(applicationContext, R.drawable.baseline_check_24)
+                        // 참가자 5명일땐 남은카드 카드뷰의 weight값 동일하게 줘서 참가자 카드뷰와 동일한 높이로
+                        setLayoutWeight(binding.cvEnd, 1.0f)
+                        setCardRecyclerView(cardList, 5)
                     }
                 }
             }
         }
         // 처음 키면 첫번째 옵션으로
-        binding.mbToggle.check(R.id.button1)
+        binding.mbToggle.check(R.id.btn_3people)
     }
 
     fun initCard(): MutableList<Card> {
         // 12개의 전체 카드 객체를 저장하기 위한 MutableList 선언
-        cardList = mutableListOf()
+        val cardList = mutableListOf<Card>()
 
         // AnimalInfo enum중 랜덤하게 뽑은 카드를 총 12개 생성 후 리스트에 담는다. 숫자는 1~12로 지정
         for(i in 1..12){
@@ -118,25 +117,109 @@ class MainActivity : AppCompatActivity() {
         return cardList
     }
 
-    fun pickCard(cardList: MutableList<Card>) {
-        // 콘솔에 결과를 표시하기 위한 String 변수
-        var results = ""
+    fun shareCard(cardList_:MutableList<Card>, numOfParticipants: Int): MutableList<Participant>{
+        val participantList = mutableListOf<Participant>()
 
-        // 뽑기 전에 카드들을 한번 섞는다
-        //cardList.shuffle()
+        // 카드들을 수정할일이 생기기 때문에 (나누어 주는 과정) 깊은 복사를 하여 새로운 리스트로 만듦
+        var cardList = mutableListOf<Card>()
+        cardList.addAll(cardList_)
 
-        // 카드를 12개 다 뽑아서 콘솔에 정해진 형식대로 출력한다.
-        for (card in cardList) {
-            results += String.format("%s%02d, ", card.animalType.unicode, card.num)
+        // 3명일때는 12번 카드는 제외시켜야함.
+        if(numOfParticipants == 3){
+            cardList = cardList.filter { it.num != 12 } as MutableList<Card>
         }
 
-        // 마지막 쉼표와 공백은 제외하고 콘솔창에 출력한다.
-        Log.d("ShowCard", results.dropLast(2))
+        // 참가자 한명당 카드를 배분함
+        for (i in 1..numOfParticipants) {
+            // 참가자 객체 생성
+            val participant = Participant(i.toString())
+
+            // 총 참가자 수에 따라 나누어 주는 카드 갯수가 다르기 때문에 분기
+            val numCardsPerParticipant = when (numOfParticipants) {
+                3 -> 8
+                4 -> 7
+                5 -> 6
+                else -> 0
+            }
+
+            // 카드 중에서 정해진 갯수만큼 들고온 다음, 뽑힌 카드는 삭제함
+            participant.addAllCard(cardList.take(numCardsPerParticipant))
+            cardList = cardList.drop(numCardsPerParticipant) as MutableList<Card>
+
+            // 참가자 생성 후 참가자 리스트에 추가함
+            participantList.add(participant)
+            //participant.showCards()
+        }
+
+        // 마찬가지로 남은 카드 갯수가 총 참가자 명수에 따라 다르기 때문에 분기
+        val numOfRemainCards = when (numOfParticipants) {
+            3 -> 9
+            4 -> 8
+            5 -> 6
+            else -> 0
+        }
+
+        // 남은 카드 따로 모으기
+        val remainCards = Participant("0")
+
+        // 마지막으로 남은 카드들을 저장
+        remainCards.addAllCard(cardList.take(numOfRemainCards))
+
+        // 남은 카드 또한 참가자 리스트에 넣고 최종 리턴
+        participantList.add(remainCards)
+        //remainCards.showCards()
+
+        return participantList
     }
 
-    fun dp2px(ctx: Context, dp: Float): Int {
-        val scale = ctx.resources.displayMetrics.density
-        return (dp * scale + 0.5f).toInt()
+    fun setCardRecyclerView(cardList: MutableList<Card>, numOfParticipants: Int){
+        // share cards
+        val participants = shareCard(cardList, numOfParticipants)
+
+        // recyclerview 어댑터 설정
+        binding.rv1.apply {
+            layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
+            adapter = CardAdapter(participants[0].getCards(), true)
+        }
+
+        binding.rv2.apply {
+            layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
+            adapter = CardAdapter(participants[1].getCards(), false)
+        }
+
+        binding.rv3.apply {
+            layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
+            adapter = CardAdapter(participants[2].getCards(), false)
+        }
+
+        if (numOfParticipants >= 4){
+            binding.rv4.apply {
+                layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
+                adapter = CardAdapter(participants[3].getCards(), false)
+            }
+        }
+        if (numOfParticipants == 5){
+            binding.rv5.apply {
+                layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
+                adapter = CardAdapter(participants[4].getCards(), false)
+            }
+        }
+
+        // 남은카드 리사이클러뷰는 갯수에따라 spancount나 layout이 달라져야함
+        binding.rv0.apply {
+            when(numOfParticipants){
+                3 -> layoutManager = GridLayoutManager(applicationContext, 5)
+                4 -> layoutManager = GridLayoutManager(applicationContext, 4)
+                5 -> layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
+            }
+            adapter = CardAdapter(participants[3].getCards(), false)
+        }
+    }
+
+    fun setLayoutWeight(view: CardView, weight: Float){
+        val cvendLp = view.layoutParams as LinearLayout.LayoutParams
+        cvendLp.weight = weight
+        view.layoutParams = cvendLp
     }
 
 }
