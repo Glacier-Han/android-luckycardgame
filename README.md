@@ -32,6 +32,10 @@ Android 학습 프로젝트 #1
 > - 겹치는 정도가 조절되게 하고싶어 overlapParam을 생성자로 뺐지만, 리사이클러뷰에 적용하는 addItemDecoration 함수가 실행시 마다 중첩되는 이슈가 발생하였다.
 > - recyclerView의 itemDecoration 상태를 초기화할 수 있는 함수는 지원되지 않는 것 같다. 조금 더 찾아보고 다른 방법을 생각해보아야겠다.
 
+> 230706 11:10 AM
+> - 겹치는 정도의 조절은 임시로 getItemOffsets의 style.itemCount를 받아와서 리사이클러뷰 내 카드 갯수에 따라 카드 겹침 간격을 조절하게 구현하였다.
+> - 마찬가지로 남은카드 리사이클러뷰도 getItemOffsets로 outRect값을 조절하여 카드간의 간격을 벌리게 구현하였다.
+
 ![res1](https://github.com/softeerbootcamp-2nd/android-luckycardgame/assets/61905052/18c69579-5d60-4246-a5a4-7d0da63eafb5) | ![res2](https://github.com/softeerbootcamp-2nd/android-luckycardgame/assets/61905052/717e2587-66dc-45ed-8e9f-4cbfed0b8abd) | ![res3](https://github.com/softeerbootcamp-2nd/android-luckycardgame/assets/61905052/a00fa477-0db0-4670-91e1-4cb771c52383)
 --- | --- | --- |
 
