@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
 
                         // 참가자 3, 4명일때는 남은 카드 뷰가 크게 보여야 하기때문에 weight 변경
                         setLayoutWeight(binding.cvEnd, 0.8f)
-                        setCardRecyclerView(cardList, 3)
+                        setCardRecyclerView(3)
                     }
                     R.id.btn_4people -> {
                         binding.cv5.visibility = View.GONE
@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
                         binding.btn5people.icon = null
 
                         setLayoutWeight(binding.cvEnd, 0.8f)
-                        setCardRecyclerView(cardList, 4)
+                        setCardRecyclerView(4)
                     }
                     R.id.btn_5people -> {
                         binding.cv5.visibility = View.VISIBLE
@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
 
                         // 참가자 5명일땐 남은카드 카드뷰의 weight값 동일하게 줘서 참가자 카드뷰와 동일한 높이로
                         setLayoutWeight(binding.cvEnd, 1.0f)
-                        setCardRecyclerView(cardList, 5)
+                        setCardRecyclerView(5)
                     }
                 }
             }
@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
         binding.mbToggle.check(R.id.btn_3people)
     }
 
-    fun setCardRecyclerView(cardList: MutableList<Card>, numOfParticipants: Int){
+    fun setCardRecyclerView(numOfParticipants: Int){
         // share cards
         luckyGame.shareCard(numOfParticipants)
 
