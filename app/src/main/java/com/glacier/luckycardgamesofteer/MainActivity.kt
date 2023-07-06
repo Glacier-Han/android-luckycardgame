@@ -33,8 +33,11 @@ class MainActivity : AppCompatActivity() {
 
     fun init(){
 
-        // 리사이클러뷰 아이템 동일간격으로 펼치기
-        val spaceDecoration = object : RecyclerView.ItemDecoration() {
+        // 참가자카드 리사이클러뷰 아이템 겹치게 보이기
+        val deco = OverlapDecoration()
+
+        // 남은카드 리사이클러뷰 아이템 동일간격으로 펼치기
+        val spaceDeco = object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
                 when(state.itemCount){
                     7 -> outRect.set(30, 10, 30, 10)
@@ -42,14 +45,13 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        binding.rv0.addItemDecoration(spaceDecoration)
 
-        val decoration3 = OverlapDecoration()
-        binding.rv1.addItemDecoration(decoration3)
-        binding.rv2.addItemDecoration(decoration3)
-        binding.rv3.addItemDecoration(decoration3)
-        binding.rv4.addItemDecoration(decoration3)
-        binding.rv5.addItemDecoration(decoration3)
+        binding.rv0.addItemDecoration(spaceDeco)
+        binding.rv1.addItemDecoration(deco)
+        binding.rv2.addItemDecoration(deco)
+        binding.rv3.addItemDecoration(deco)
+        binding.rv4.addItemDecoration(deco)
+        binding.rv5.addItemDecoration(deco)
 
         binding.mbToggle.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if(isChecked){
@@ -63,34 +65,33 @@ class MainActivity : AppCompatActivity() {
                     R.id.btn_3people -> {
                         binding.cv5.visibility = View.GONE
                         binding.cv4.visibility = View.INVISIBLE
-                        setLayoutWeight(binding.cvEnd, 0.8f)
-
                         binding.btn3people.icon = AppCompatResources.getDrawable(applicationContext, R.drawable.baseline_check_24)
                         binding.btn4people.icon = null
                         binding.btn5people.icon = null
 
+                        // 참가자 3, 4명일때는 남은 카드 뷰가 크게 보여야 하기때문에 weight 변경
+                        setLayoutWeight(binding.cvEnd, 0.8f)
                         setCardRecyclerView(cardList, 3)
                     }
                     R.id.btn_4people -> {
                         binding.cv5.visibility = View.GONE
                         binding.cv4.visibility = View.VISIBLE
-                        setLayoutWeight(binding.cvEnd, 0.8f)
-
                         binding.btn3people.icon = null
                         binding.btn4people.icon = AppCompatResources.getDrawable(applicationContext, R.drawable.baseline_check_24)
                         binding.btn5people.icon = null
 
+                        setLayoutWeight(binding.cvEnd, 0.8f)
                         setCardRecyclerView(cardList, 4)
                     }
                     R.id.btn_5people -> {
                         binding.cv5.visibility = View.VISIBLE
                         binding.cv4.visibility = View.VISIBLE
-                        setLayoutWeight(binding.cvEnd, 1.0f)
-
                         binding.btn3people.icon = null
                         binding.btn4people.icon = null
                         binding.btn5people.icon = AppCompatResources.getDrawable(applicationContext, R.drawable.baseline_check_24)
 
+                        // 참가자 5명일땐 남은카드 카드뷰의 weight값 동일하게 줘서 참가자 카드뷰와 동일한 높이로
+                        setLayoutWeight(binding.cvEnd, 1.0f)
                         setCardRecyclerView(cardList, 5)
                     }
                 }
@@ -114,22 +115,6 @@ class MainActivity : AppCompatActivity() {
 
         // 생성한 카드 리스트를 리턴한다.
         return cardList
-    }
-
-    fun pickCard(cardList: MutableList<Card>) {
-        // 콘솔에 결과를 표시하기 위한 String 변수
-        var results = ""
-
-        // 뽑기 전에 카드들을 한번 섞는다
-        //cardList.shuffle()
-
-        // 카드를 12개 다 뽑아서 콘솔에 정해진 형식대로 출력한다.
-        for (card in cardList) {
-            results += String.format("%s%02d, ", card.animalType.unicode, card.num)
-        }
-
-        // 마지막 쉼표와 공백은 제외하고 콘솔창에 출력한다.
-        Log.d("ShowCard", results.dropLast(2))
     }
 
     fun shareCard(cardList_:MutableList<Card>, numOfParticipants: Int): MutableList<Participant>{
@@ -220,6 +205,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        // 남은카드 리사이클러뷰는 갯수에따라 spancount나 layout이 달라져야함
         binding.rv0.apply {
             when(numOfParticipants){
                 3 -> layoutManager = GridLayoutManager(applicationContext, 5)
@@ -231,7 +217,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setLayoutWeight(view: CardView, weight: Float){
-        var cvendLp = view.layoutParams as LinearLayout.LayoutParams
+        val cvendLp = view.layoutParams as LinearLayout.LayoutParams
         cvendLp.weight = weight
         view.layoutParams = cvendLp
     }
