@@ -1,5 +1,6 @@
 package com.glacier.luckycardgamesofteer
 
+import android.util.Log
 import com.glacier.luckycardgamesofteer.model.Animal
 import com.glacier.luckycardgamesofteer.model.Card
 import com.glacier.luckycardgamesofteer.model.Participant
@@ -73,7 +74,66 @@ class LuckyGame {
         // 남은 카드 또한 참가자 리스트에 넣고 최종 리턴
         participantList.add(remainCards)
         //remainCards.showCards()
-
     }
+
+    // 메소드 : 참가자별로 카드를 숫자 오름차순으로 정렬할 수 있어야 한다
+    fun sortCardAscend(indexOfParticipant: Int){
+        participantList[indexOfParticipant].setCards(participantList[indexOfParticipant].getCards().sortedBy { it.num } as MutableList<Card>)
+        Log.d("SortAscend", participantList[indexOfParticipant].getCards().toString())
+    }
+
+    // 메소드 : 바닥에 깔린 카드도 숫자 오름차순으로 정렬할 수 있어야 한다
+    fun sortRemainAscend(){
+        // 현재 남은 카드는 participantList의 마지막 인덱스에 들어있음
+        participantList[participantList.lastIndex].setCards(participantList[participantList.lastIndex].getCards().sortedBy { it.num } as MutableList<Card>)
+    }
+
+    // 메소드 :참가자 중에 같은 숫자 카드 3장을 가진 경우가 있는지 판단할 수 있다
+    fun isSameCardInParticipants() : Boolean{
+        var result = false
+        // 모든 참가자 대상 검사 (대신 participantList의 마지막 객체는 "남은카드" 임으로 dropLast(1) 해줌
+        for(participant in participantList.dropLast(1)){
+            val isSameInParticipant = checkThreeSameNumber(participant.getCards())
+            Log.d("SameNumber", isSameInParticipant.toString())
+            if(isSameInParticipant) result = true
+        }
+
+        return result
+    }
+
+    // 메소드 : 특정 참가자와 해당 참가자 카드 중에 가장 낮은 숫자 또는 가장 높은 숫자, 바닥 카드 중 아무거나를 선택해서 3개가 같은지 판단할 수 있어야 한다.
+    fun isSameCardInSpecificCase(targetIndex1: Int, targetIndex2: Int, isMin: Boolean): Boolean{
+        val targetCards1 = participantList[targetIndex1].getCards()
+        val targetCards2 = participantList[targetIndex2].getCards()
+        val remainCards = participantList[participantList.lastIndex].getCards()
+
+        val targetNum1 =
+            if(isMin) targetCards1.minOf { it.num }
+            else targetCards1.maxOf { it.num }
+
+        val targetNum2 =
+            if(isMin) targetCards2.minOf { it.num }
+            else targetCards2.maxOf { it.num }
+
+        val targetNum3 = remainCards.random().num
+
+        return (targetNum1 == targetNum2 && targetNum2 == targetNum3)
+    }
+
+    fun checkThreeSameNumber(numbers: List<Card>): Boolean {
+        val numCounts = mutableMapOf<Int, Int>()
+
+        for (number in numbers) {
+            val count = numCounts.getOrDefault(number.num, 0) + 1
+            numCounts[number.num] = count
+            if (count >= 3) { return true }
+        }
+
+        return false
+    }
+
+
+
+
 
 }

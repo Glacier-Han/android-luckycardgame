@@ -104,6 +104,7 @@ class MainActivity : AppCompatActivity() {
         }
         // 처음 키면 첫번째 옵션으로
         binding.mbToggle.check(R.id.btn_3people)
+
     }
 
     fun setCardRecyclerView(numOfParticipants: Int){
