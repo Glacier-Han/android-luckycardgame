@@ -79,7 +79,7 @@ class LuckyGame {
     // 메소드 : 참가자별로 카드를 숫자 오름차순으로 정렬할 수 있어야 한다
     fun sortCardAscend(indexOfParticipant: Int){
         participantList[indexOfParticipant].setCards(participantList[indexOfParticipant].getCards().sortedBy { it.num } as MutableList<Card>)
-        Log.d("SortAscend", participantList[indexOfParticipant].getCards().toString())
+        // Log.d("SortAscend", participantList[indexOfParticipant].getCards().toString())
     }
 
     // 메소드 : 바닥에 깔린 카드도 숫자 오름차순으로 정렬할 수 있어야 한다
