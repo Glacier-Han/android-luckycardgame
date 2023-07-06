@@ -34,21 +34,24 @@ class MainActivity : AppCompatActivity() {
     fun init(){
 
         // 리사이클러뷰 아이템 동일간격으로 펼치기
-//        val spaceDecoration = object : RecyclerView.ItemDecoration() {
-//            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-//                outRect.set(10, 10, 10, 10)
-//            }
-//        }
-//        binding.rv0.addItemDecoration(spaceDecoration)
+        val spaceDecoration = object : RecyclerView.ItemDecoration() {
+            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+                when(state.itemCount){
+                    7 -> outRect.set(30, 10, 30, 10)
+                    9 -> outRect.set(10,10,10,10)
+                }
+            }
+        }
+        binding.rv0.addItemDecoration(spaceDecoration)
 
-        val decoration3 = OverlapDecoration(-60)
+        val decoration3 = OverlapDecoration()
         binding.rv1.addItemDecoration(decoration3)
         binding.rv2.addItemDecoration(decoration3)
         binding.rv3.addItemDecoration(decoration3)
         binding.rv4.addItemDecoration(decoration3)
         binding.rv5.addItemDecoration(decoration3)
 
-        binding.mbToggle.addOnButtonCheckedListener { toggleButton, checkedId, isChecked ->
+        binding.mbToggle.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if(isChecked){
                 // 명수가 변경될 때 마다 카드를 새로 뽑는다
                 var cardList = initCard()
