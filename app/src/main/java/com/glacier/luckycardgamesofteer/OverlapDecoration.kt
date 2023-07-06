@@ -14,6 +14,8 @@ class OverlapDecoration() : ItemDecoration() {
         state: RecyclerView.State
     ) {
         var overlapParam = 0
+
+        // 6개일때는 겹치지 않음 (0), 7개일때부터 조금씩 간격 추가
         overlapParam += ((state.itemCount - 6) * (-25))
         val itemPosition = parent.getChildAdapterPosition(view)
         if (itemPosition == 0) {
