@@ -79,7 +79,6 @@ class LuckyGame {
     // 메소드 : 참가자별로 카드를 숫자 오름차순으로 정렬할 수 있어야 한다
     fun sortCardAscend(indexOfParticipant: Int){
         participantList[indexOfParticipant].setCards(participantList[indexOfParticipant].getCards().sortedBy { it.num } as MutableList<Card>)
-        // Log.d("SortAscend", participantList[indexOfParticipant].getCards().toString())
     }
 
     // 메소드 : 바닥에 깔린 카드도 숫자 오름차순으로 정렬할 수 있어야 한다
@@ -94,7 +93,6 @@ class LuckyGame {
         // 모든 참가자 대상 검사 (대신 participantList의 마지막 객체는 "남은카드" 임으로 dropLast(1) 해줌
         for(participant in participantList.dropLast(1)){
             val isSameInParticipant = checkThreeSameNumber(participant.getCards())
-            Log.d("SameNumber", isSameInParticipant.toString())
             if(isSameInParticipant) result = true
         }
 
