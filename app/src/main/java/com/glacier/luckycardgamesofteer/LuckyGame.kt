@@ -14,6 +14,7 @@ class LuckyGame {
 
     fun initCard(){
         // 12개의 전체 카드 객체를 저장하기 위한 MutableList 선언
+
         cardList.clear()
         participantList.clear()
 

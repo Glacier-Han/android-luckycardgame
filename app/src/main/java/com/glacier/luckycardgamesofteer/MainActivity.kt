@@ -95,8 +95,8 @@ class MainActivity : AppCompatActivity() {
                         binding.btn4people.icon = null
                         binding.btn5people.icon = AppCompatResources.getDrawable(applicationContext, R.drawable.baseline_check_24)
 
-                        // 참가자 5명일땐 남은카드 카드뷰의 weight값 동일하게 줘서 참가자 카드뷰와 동일한 높이로
-                        setLayoutWeight(binding.cvEnd, 1.0f)
+                        // 참가자 5명일땐 남은카드 카드뷰가 살짝 더 커야하기 때문에 weight값 수정
+                        setLayoutWeight(binding.cvEnd, 0.96f)
                         setCardRecyclerView(5)
                     }
                 }
