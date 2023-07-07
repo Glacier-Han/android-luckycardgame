@@ -10,7 +10,7 @@ import org.junit.Test
 
 class LuckyGameTest {
 
-    // 테스트 케이스에도 네이밍 컨벤션이 많은데, 그 중 제일 직관적인 test + 테스트할 기능 설명 으로 결정.
+    // 테스트 케이스 네이밍 컨벤션 -> 함수이름_테스트내용_기대결과 로 결정
     lateinit var luckyGame: LuckyGame
 
     @Before
@@ -26,14 +26,14 @@ class LuckyGameTest {
     }
 
     @Test
-    fun testInitCardCount() {
+    fun initCard_Count_36() {
         // TC1. 카드 생성후 갯수가 36개가 맞는지?
         luckyGame.initCard()
         assertEquals(36, luckyGame.cardList.size)
     }
 
     @Test
-    fun testInitCardTypeVaild() {
+    fun initCard_Has3Type_True() {
         // TC2. 카드 36개중에 같은 동물이 12개씩 있는지? (동물이 3종류임으로 한동물당 12개씩)
         val animalTypeCounts = luckyGame.cardList.groupBy { it.animalType }
         val hasThreeOfEach = animalTypeCounts.values.any { it.size == 12 }
@@ -41,7 +41,7 @@ class LuckyGameTest {
     }
 
     @Test
-    fun testShareCardCountWhen3() {
+    fun shareCard_3ParticipantsCount_4() {
         // TC3. 참가자 인원에 맞게 생성되는지?
         // 3명이 게임에 참가할 경우 4가 정답이여야 한다. 왜냐하면 '남은 카드리스트'도 participantList에 들어가기 때문
         luckyGame.shareCard(3)
@@ -49,19 +49,21 @@ class LuckyGameTest {
     }
 
     @Test
-    fun testShareCard3PeopleVaild() {
+    fun shareCard_3ParticipantsHas12_False() {
         // TC4. 3명이 참가했을 시 participant가 12번 카드를 가지고 있으면 안됨. 가지고 있는지 검사
         var isSameContain = false
         for (participant in luckyGame.participantList) {
             for (card in participant.getCards()) {
-                if (card.num == 12) isSameContain = true
+                if (card.num == 12) {
+                    isSameContain = true
+                }
             }
         }
         assertEquals(false, isSameContain)
     }
 
     @Test
-    fun testShareCardCountWhen5() {
+    fun shareCard_5ParticipantsCount_6() {
         // TC5. 5명이 참가했을 시 participantList.size가 6이 맞는지?
         luckyGame.initCard()
         luckyGame.shareCard(5)
@@ -70,7 +72,7 @@ class LuckyGameTest {
 
 
     @Test
-    fun testSortCardAscend() {
+    fun sortCardAscend_IsVaild_True() {
         // TC6. A참가자를 대상으로 오름차순 정렬을 했을 때 제대로 수행되었는지 검사
         // 정렬하지 않은 리스트와, 정렬 된 리스트가 같은지 비교
         luckyGame.shareCard(3)
@@ -86,7 +88,7 @@ class LuckyGameTest {
     }
 
     @Test
-    fun testSortRemainAscend() {
+    fun sortRemainAscend_IsValid_True() {
         // TC7. 남은 카드 대상으로 오름차순 정렬을 했을 때 제대로 수행되었는지 검사
         luckyGame.shareCard(3)
 
@@ -105,7 +107,7 @@ class LuckyGameTest {
     }
 
     @Test
-    fun testIsSameCardInParticipants() {
+    fun isSameCardInParticipants_isValid_True() {
         // TC8. 참가자 중 같은 숫자 카드 3개를 가진 경우가 있는지 판단
         // test 상황을 만들기 위해서 임의로 같은 카드 3개를 1번 참가자에게 지급
         luckyGame.shareCard(5)
@@ -127,7 +129,7 @@ class LuckyGameTest {
 
     // 특정 참가자와 해당 참가자 카드 중에 가장 낮은 숫자 또는 가장 높은 숫자, 바닥 카드 중 아무거나를 선택해서 3개가 같은지 판단할 수 있어야 한다.
     @Test
-    fun testIsSameCardInSpecificCase() {
+    fun isSameCardInSpecificCase_IsValid_True() {
         // TC9. 1번 참가자와 3번 참가자 카드 중에 가장 낮은숫자 기준으로 3개가 같은지 판단
         // test 상황을 만들기 위해서 임의로 같은 카드Set을 2명의 참가자 에게 넣음
         // 남은 카드에는 위 카드셋의 min값으로 채움 (비교를 수월하게 하기 위해)
