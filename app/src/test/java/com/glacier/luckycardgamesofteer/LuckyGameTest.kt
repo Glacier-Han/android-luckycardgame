@@ -47,8 +47,9 @@ class LuckyGameTest {
         luckyGame.shareCard(3)
         assertEquals(4, luckyGame.participantList.size)
     }
+
     @Test
-    fun testShareCard3PeopleVaild(){
+    fun testShareCard3PeopleVaild() {
         // TC4. 3명이 참가했을 시 participant가 12번 카드를 가지고 있으면 안됨. 가지고 있는지 검사
         var isSameContain = false
         for (participant in luckyGame.participantList) {
