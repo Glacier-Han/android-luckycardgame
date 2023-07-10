@@ -10,13 +10,17 @@ import androidx.core.view.get
 import androidx.recyclerview.widget.RecyclerView
 import com.glacier.luckycardgamesofteer.LuckyGame
 import com.glacier.luckycardgamesofteer.databinding.ItemCardBinding
+import com.glacier.luckycardgamesofteer.listener.OnCardFilpedListener
 import com.glacier.luckycardgamesofteer.model.Card
 
 
-class CardAdapter(luckyGame: LuckyGame, participantNum: Int) :
+class CardAdapter(luckyGame: LuckyGame, participantNum: Int, listener: OnCardFilpedListener) :
     RecyclerView.Adapter<CardAdapter.ViewHolder>() {
 
     private val cards = luckyGame.participantList[participantNum].getCards()
+    private val participantNum = participantNum
+    private val luckyGame = luckyGame
+    private val listener = listener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -46,8 +50,12 @@ class CardAdapter(luckyGame: LuckyGame, participantNum: Int) :
 
             binding.itemView.setOnClickListener {
                 if (card.isBack) {
-                    card.isBack = false
-                    setCardFront(binding, card)
+                    if (luckyGame.isCardCanFilp(participantNum, adapterPosition)) {
+                        card.isBack = false
+                        luckyGame.filpCard(participantNum, adapterPosition)
+                        listener.onCardFilped(card, participantNum, adapterPosition)
+                        setCardFront(binding, card)
+                    }
                 }
             }
 
@@ -76,7 +84,7 @@ class CardAdapter(luckyGame: LuckyGame, participantNum: Int) :
             binding.tvAnimal.text = card.animalType.unicode
             binding.tvNumBottom.text = card.num.toString()
             binding.tvNumTop.text = card.num.toString()
-        },250)
+        }, 250)
 
     }
 
