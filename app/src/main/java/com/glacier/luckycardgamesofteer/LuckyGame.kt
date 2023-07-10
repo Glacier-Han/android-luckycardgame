@@ -21,7 +21,7 @@ class LuckyGame {
         // AnimalInfo enum중 랜덤하게 뽑은 카드를 총 12개 생성 후 리스트에 담는다. 숫자는 1~12로 지정
         for(i in 1..12){
             for (animal in Animal.values()) {
-                val pickedCard = Card(animal, i)
+                val pickedCard = Card(animal, i, true)
                 cardList.add(pickedCard)
             }
         }
@@ -132,7 +132,10 @@ class LuckyGame {
     }
 
 
-
-
+    // TODO 게임메소드 추가
+    // 뒤집힌 상태인 카드를 터치하면 앞면이 보이도록 카드를 표시
+    fun flipCard(participantNum: Int, cardIndex: Int) {
+        participantList[participantNum].getCards()[cardIndex].isBack = false
+    }
 
 }

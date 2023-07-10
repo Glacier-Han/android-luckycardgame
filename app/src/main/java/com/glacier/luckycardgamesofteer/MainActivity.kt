@@ -114,29 +114,29 @@ class MainActivity : AppCompatActivity() {
         // recyclerview 어댑터 설정
         binding.rv1.apply {
             layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
-            adapter = CardAdapter(luckyGame.participantList[0].getCards(), true)
+            adapter = CardAdapter(luckyGame, 0)
         }
 
         binding.rv2.apply {
             layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
-            adapter = CardAdapter(luckyGame.participantList[1].getCards(), false)
+            adapter = CardAdapter(luckyGame, 1)
         }
 
         binding.rv3.apply {
             layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
-            adapter = CardAdapter(luckyGame.participantList[2].getCards(), false)
+            adapter = CardAdapter(luckyGame, 2)
         }
 
         if (numOfParticipants >= 4){
             binding.rv4.apply {
                 layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
-                adapter = CardAdapter(luckyGame.participantList[3].getCards(), false)
+                adapter = CardAdapter(luckyGame,3)
             }
         }
         if (numOfParticipants == 5){
             binding.rv5.apply {
                 layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
-                adapter = CardAdapter(luckyGame.participantList[4].getCards(), false)
+                adapter = CardAdapter(luckyGame,4)
             }
         }
 
@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity() {
                 4 -> layoutManager = GridLayoutManager(applicationContext, 4)
                 5 -> layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
             }
-            adapter = CardAdapter(luckyGame.participantList[3].getCards(), false)
+            adapter = CardAdapter(luckyGame,numOfParticipants)
         }
     }
 
