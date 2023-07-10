@@ -1,6 +1,5 @@
 package com.glacier.luckycardgamesofteer
 
-import android.util.Log
 import com.glacier.luckycardgamesofteer.model.Animal
 import com.glacier.luckycardgamesofteer.model.Card
 import com.glacier.luckycardgamesofteer.model.Participant
@@ -41,6 +40,7 @@ class LuckyGame {
         for (i in 1..numOfParticipants) {
             // 참가자 객체 생성
             val participant = Participant(i.toString())
+            val participantResult = Participant(i.toString())
 
             // 총 참가자 수에 따라 나누어 주는 카드 갯수가 다르기 때문에 분기
             val numCardsPerParticipant = when (numOfParticipants) {
@@ -56,6 +56,7 @@ class LuckyGame {
 
             // 참가자 생성 후 참가자 리스트에 추가함
             participantList.add(participant)
+            participantResultList.add(participantResult)
             //participant.showCards()
         }
 
@@ -139,7 +140,6 @@ class LuckyGame {
 
 
     // TODO 게임메소드 추가
-
     // 선택한 카드 뒤집기
     fun filpCard(participantNum: Int, cardIndex: Int) {
         participantList[participantNum].getCards()[cardIndex].isBack = false
@@ -155,10 +155,8 @@ class LuckyGame {
             return false
         }
 
-        val minValue = isBackList.minByOrNull { it.num }?.num ?: 0
-        val maxValue = isBackList.maxByOrNull { it.num }?.num ?: 0
-
-        return cardIndex in cards.indices && cards[cardIndex].isBack && (cards[cardIndex].num == minValue || cards[cardIndex].num == maxValue)
+        // 뒷면상태인 카드 중에서 양끝값만 선택 가능하게 구현
+        return cards[cardIndex] == isBackList[0] || cards[cardIndex] == isBackList[isBackList.lastIndex]
     }
 
     // 사용자별로 총 3장의 카드만 뒤집을 수 있다
@@ -166,9 +164,61 @@ class LuckyGame {
         return participantResultList[participantNum].getCards().count { !it.isBack } <= 3
     }
 
-    fun is3CardIsSame(cards: MutableList<Card>){
-
+    // 뽑은 3장의 카드가 똑같은지 확인
+    private fun is3CardIsSame(cards: MutableList<Card>): Boolean {
+        val firstNum = cards[0].num
+        for (i in 1 until cards.size) {
+            if (cards[i].num != firstNum) {
+                return false
+            }
+        }
+        return true
     }
+
+    // 3장의 카드가 똑같은 걸 뽑으면 결과리스트에 추가 및 기존 리스트에서 제거
+    fun setResultCard(cards: MutableList<Card>, participantNum: Int) {
+        if (is3CardIsSame(cards)) {
+            participantList[participantNum].removeCards(cards)
+            participantResultList[participantNum].addAllCard(cards)
+        }
+    }
+
+    /*
+        게임이 끝나는 경우는 3장을 모은 카드 숫자 합 또는 차가 7이면 끝난다.
+        누군가 한 명이 7을 모아도 끝나고, A와 B가 각각 1과 8을 모았어도 끝난다.
+    */
+    fun checkFinishStatus(): Boolean {
+        var isFinishStatus = false
+
+        val sumdiffCheckList = mutableListOf<Int>()
+        for (participant in participantResultList) {
+            val cards = participant.getCards()
+            if (cards[0].num == 7) {
+                isFinishStatus = true
+            } else {
+                sumdiffCheckList.add(cards[0].num)
+            }
+        }
+
+        isFinishStatus = isFinishStatus || isSumDiffIs7(sumdiffCheckList)
+
+        return isFinishStatus
+    }
+
+    // 모은 카드 숫자 합 또는 차가 7이면 True
+    fun isSumDiffIs7(cardList: List<Int>): Boolean {
+        for (i in 0 until cardList.size - 1) {
+            for (j in i + 1 until cardList.size) {
+                val sum = cardList[i] + cardList[j]
+                val difference = kotlin.math.abs(cardList[i] - cardList[j])
+                if (sum == 7 || difference == 7) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
 
 
 }

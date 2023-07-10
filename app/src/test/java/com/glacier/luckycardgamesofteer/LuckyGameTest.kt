@@ -120,7 +120,7 @@ class LuckyGameTest {
         for (i in 0..2) {
             sameCardSet.add(targetCardSet.maxBy { it.num })
         }
-        luckyGame.participantList[luckyGame.participantList.lastIndex].setCards(sameCardSet)
+        luckyGame.participantList[0].setCards(sameCardSet)
 
         // 1번참가자가 같은카드 3개씩을 들고있기 때문에 무조건 true가 나와야함
         val methodAnswer = luckyGame.isSameCardInParticipants()
@@ -149,4 +149,113 @@ class LuckyGameTest {
         val methodAnswer = luckyGame.isSameCardInSpecificCase(0, 2, true)
         assertEquals(true, methodAnswer)
     }
+
+    @Test
+    fun isCardCanFlip_IsValid_True() {
+        luckyGame.shareCard(5)
+        luckyGame.sortCardAscend(0)
+        luckyGame.filpCard(0, 0)
+
+        // 1번 참가자의 왼쪽 카드를 뒤집었는 상황일 때, 왼쪽에서 두번쨰 카드를 뒤집을 수 있어야함
+        assertEquals(true, luckyGame.isCardCanFilp(0, 1))
+    }
+
+    @Test
+    fun isCardCanFlip_IsValid_False() {
+        luckyGame.initCard()
+        luckyGame.shareCard(5)
+        luckyGame.sortCardAscend(0)
+        luckyGame.filpCard(0, 0)
+
+        // 1번 참가자의 왼쪽 카드를 뒤집었는 상황일 때, 왼쪽에서 세번째 카드를 뒤집을 수 없어야함
+        assertEquals(false, luckyGame.isCardCanFilp(0, 2))
+    }
+
+    @Test
+    fun checkWhen3CardSameStatus_IsValid_True() {
+        // test 상황을 만들기 위해서 임의로 같은 카드 3개를 1번 참가자에게 지급
+        luckyGame.shareCard(3)
+        val targetCardSet = luckyGame.participantList[0].getCards()
+
+        val sameCardSet = mutableListOf<Card>()
+        for (i in 0..2) {
+            sameCardSet.add(targetCardSet.minBy { it.num })
+        }
+        for (i in 0..2) {
+            sameCardSet.add(targetCardSet.maxBy { it.num })
+        }
+        for (i in 0..1) {
+            sameCardSet.add(targetCardSet.elementAt(targetCardSet.lastIndex - 2))
+        }
+        luckyGame.participantList[0].setCards(sameCardSet)
+
+        // 1번 참가자의 차례에서 카드 3개를 뽑았는데, 같은 숫자가 3개 나온 상황 연출
+        val selectedCard = (luckyGame.participantList[0].getCards().take(3) as MutableList<Card>)
+        luckyGame.setResultCard(selectedCard, 0)
+
+        // 표시 화면에서 제거되었는지 확인
+        var isSuccessfullyDeleted = false
+        if (luckyGame.participantList[0].getCards().size == 5) {
+            isSuccessfullyDeleted = true
+        }
+
+        // 결과 화면에 추가되었는지 확인
+        var isSuccessfullyAdded = false
+        if (luckyGame.participantResultList[0].getCards().size == 3) {
+            isSuccessfullyAdded = true
+        }
+
+        assertEquals(true, isSuccessfullyAdded && isSuccessfullyDeleted)
+    }
+
+    @Test
+    fun checkSumDiff7_IsValid_True() {
+        // 숫자 리스트에서 합이나 차가 7인 경우 true
+        assertEquals(true, luckyGame.isSumDiffIs7(listOf(1, 4, 8)))
+    }
+
+    @Test
+    fun checkFinishState_When1and8_True() {
+        // 1번참가자가 숫자1 3개모았고, 2번참가자가 숫자4 3개모았고, 3번참가자가 숫자8 3개모았을때 상황 구현
+        // 1과 8의 차가 7임으로 종료조건에 해당한다.
+        val card1num = Card(Animal.Dog, 1, false)
+        val card4num = Card(Animal.Dog, 4, false)
+        val card8num = Card(Animal.Dog, 8, false)
+
+        luckyGame.shareCard(3)
+        for (i in 1..3) {
+            luckyGame.participantResultList[0].addCard(card1num)
+        }
+        for (i in 1..3) {
+            luckyGame.participantResultList[1].addCard(card4num)
+        }
+        for (i in 1..3) {
+            luckyGame.participantResultList[2].addCard(card8num)
+        }
+
+        assertEquals(true, luckyGame.checkFinishStatus())
+    }
+
+    @Test
+    fun checkFinishState_When7_True() {
+        // 1번참가자가 숫자7 3개모았고, 2번참가자가 숫자4 3개모았고, 3번참가자가 숫자8 3개모았을때 상황 구현
+        // 1번참가자가 뽑은 숫자가 7임으로 종료조건에 해당한다.
+        val card7num = Card(Animal.Dog, 7, false)
+        val card4num = Card(Animal.Dog, 4, false)
+        val card8num = Card(Animal.Dog, 8, false)
+
+        luckyGame.shareCard(3)
+        for (i in 1..3) {
+            luckyGame.participantResultList[0].addCard(card7num)
+        }
+        for (i in 1..3) {
+            luckyGame.participantResultList[1].addCard(card4num)
+        }
+        for (i in 1..3) {
+            luckyGame.participantResultList[2].addCard(card8num)
+        }
+
+        assertEquals(true, luckyGame.checkFinishStatus())
+    }
+
 }
