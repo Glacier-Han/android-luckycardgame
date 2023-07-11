@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|start"
         android:layout_margin="8dp"
-        android:text="12"
         android:textSize="12dp"
         android:textStyle="bold" />
 
@@ -22,7 +21,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="8dp"
-        android:text="🐶"
         android:textSize="20dp"
         android:textStyle="bold" />
 
@@ -32,7 +30,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="8dp"
-        android:text="12"
         android:textSize="12dp"
         android:textStyle="bold" />
 
