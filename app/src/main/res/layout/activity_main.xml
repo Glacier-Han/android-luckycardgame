@@ -34,7 +34,6 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_end="15dp" />
 
-    <!--https://github.com/material-components/material-components-android/blob/master/docs/components/Button.md#toggle-button-->
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/mb_toggle"
         android:layout_width="0dp"
