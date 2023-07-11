@@ -209,15 +209,22 @@ class LuckyGameTest {
     }
 
     @Test
-    fun checkSumDiff7_IsValid_True() {
+    fun checkSumDiff7_IsValid_02() {
         // 숫자 리스트에서 합이나 차가 7인 경우 true
-        assertEquals(true, luckyGame.isSumDiffIs7(listOf(1, 4, 8)))
+        assertEquals(listOf(0, 2), luckyGame.isSumDiffIs7(listOf(1, 4, 8)))
     }
 
     @Test
-    fun checkFinishState_When1and8_True() {
+    fun checkSumDiff7_IsValid_1010() {
+        // 숫자 리스트에서 합이나 차가 7인 경우 true. 이 경우에선 false인 (10,10)이 나와야함
+        assertEquals(listOf(10, 10), luckyGame.isSumDiffIs7(listOf(1, 4, 9)))
+    }
+
+    @Test
+    fun checkFinishState_When1and8_02() {
         // 1번참가자가 숫자1 3개모았고, 2번참가자가 숫자4 3개모았고, 3번참가자가 숫자8 3개모았을때 상황 구현
         // 1과 8의 차가 7임으로 종료조건에 해당한다.
+        // 승자는 1번참가자와 3번참가자.
         val card1num = Card(Animal.Dog, 1, false)
         val card4num = Card(Animal.Dog, 4, false)
         val card8num = Card(Animal.Dog, 8, false)
@@ -233,13 +240,15 @@ class LuckyGameTest {
             luckyGame.participantResultList[2].addCard(card8num)
         }
 
-        assertEquals(true, luckyGame.checkFinishStatus())
+        val result = luckyGame.checkFinishStatus()
+        assertEquals(listOf(0, 2), result)
     }
 
     @Test
-    fun checkFinishState_When7_True() {
+    fun checkFinishState_When7_0() {
         // 1번참가자가 숫자7 3개모았고, 2번참가자가 숫자4 3개모았고, 3번참가자가 숫자8 3개모았을때 상황 구현
         // 1번참가자가 뽑은 숫자가 7임으로 종료조건에 해당한다.
+        // 승자는 1번참가자
         val card7num = Card(Animal.Dog, 7, false)
         val card4num = Card(Animal.Dog, 4, false)
         val card8num = Card(Animal.Dog, 8, false)
@@ -255,7 +264,7 @@ class LuckyGameTest {
             luckyGame.participantResultList[2].addCard(card8num)
         }
 
-        assertEquals(true, luckyGame.checkFinishStatus())
+        assertEquals(listOf(0), luckyGame.checkFinishStatus())
     }
 
 }

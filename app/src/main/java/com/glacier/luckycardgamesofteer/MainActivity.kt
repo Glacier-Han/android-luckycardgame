@@ -159,7 +159,7 @@ class MainActivity : AppCompatActivity(), OnCardFilpedListener {
     }
 
     override fun onCardFilped(card: Card, participantNum: Int, cardIndex: Int) {
-        // Card를 눌렀을 때
+        // TODO : 카드 뒤집을 때 마다 각 Turn마다 참가자당 3번씩 누르는걸 감지하고 결과체크를 해야함
     }
 
 }

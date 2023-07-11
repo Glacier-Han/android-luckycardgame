@@ -187,7 +187,10 @@ class LuckyGame {
         게임이 끝나는 경우는 3장을 모은 카드 숫자 합 또는 차가 7이면 끝난다.
         누군가 한 명이 7을 모아도 끝나고, A와 B가 각각 1과 8을 모았어도 끝난다.
     */
-    fun checkFinishStatus(): Boolean {
+
+    // TODO:: 종료조건 및 isSumDiff 리턴을 List로 수정해야함
+    fun checkFinishStatus(): List<Int> {
+        val winnerList = mutableListOf<Participant>()
         var isFinishStatus = false
 
         val sumdiffCheckList = mutableListOf<Int>()
@@ -195,30 +198,27 @@ class LuckyGame {
             val cards = participant.getCards()
             if (cards[0].num == 7) {
                 isFinishStatus = true
+                return listOf(participantResultList.indexOf(participant))
             } else {
                 sumdiffCheckList.add(cards[0].num)
             }
         }
 
-        isFinishStatus = isFinishStatus || isSumDiffIs7(sumdiffCheckList)
-
-        return isFinishStatus
+        return isSumDiffIs7(sumdiffCheckList)
     }
 
     // 모은 카드 숫자 합 또는 차가 7이면 True
-    fun isSumDiffIs7(cardList: List<Int>): Boolean {
+    fun isSumDiffIs7(cardList: List<Int>): List<Int> {
         for (i in 0 until cardList.size - 1) {
             for (j in i + 1 until cardList.size) {
                 val sum = cardList[i] + cardList[j]
                 val difference = kotlin.math.abs(cardList[i] - cardList[j])
                 if (sum == 7 || difference == 7) {
-                    return true
+                    return listOf(i, j)
                 }
             }
         }
-        return false
+        return listOf(10, 10)
     }
-
-
 
 }
