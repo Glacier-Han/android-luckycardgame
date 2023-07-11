@@ -6,4 +6,13 @@
     </style>
 
     <style name="Theme.LuckyCardGameSofteer" parent="Base.Theme.LuckyCardGameSofteer" />
+
+    <style name="SegmentButtonStyle" parent="@style/Widget.Material3.Button.OutlinedButton.Icon">
+        <item name="android:textColor">@color/black</item>
+        <item name="icon">@drawable/baseline_check_24</item>
+        <item name="iconGravity">textStart</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
 </resources>
