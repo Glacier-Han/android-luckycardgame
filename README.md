@@ -44,23 +44,45 @@ Android 학습 프로젝트 #1
 > - 4번 과제 요구사항에 맞게, LuckyGame 클래스를 생성하여 게임로직 관련 코드는 모두 이 클래스 안에 넣고, 카드나 참가자들 또한 여기서 관리하게 수정하였다.
 > - 테스트 케이스에도 네이밍 컨벤션이 많은데, 그 중 제일 직관적인 test + 테스트할 기능 설명 으로 결정.
 > ### UnitTest - LuckyGameTest.kt
-> - ```testInitCardCount```
-    >   -  TC1. 카드 생성후 갯수가 36개가 맞는지?
-> - ```testInitCardTypeVaild```
-    >   -  TC2. 카드 36개중에 같은 동물이 12개씩 있는지? (동물이 3종류임으로 한동물당 12개씩)
-> - ```testShareCardCountWhen3```
-    >   -  TC3. 참가자 인원에 맞게 생성되는지?
-> - ```testShareCard3PeopleVaild```
-    >   -  TC4. 3명이 참가했을 시 participant가 12번 카드를 가지고 있으면 안됨. 가지고 있는지 검사
-> - ```testShareCardCountWhen5```
-    >   -  TC5. 5명이 참가했을 시 participantList.size가 6이 맞는지?
-> - ```testSortCardAscend```
-    >   -  TC6. A참가자를 대상으로 오름차순 정렬을 했을 때 제대로 수행되었는지 검사
-> - ```testSortRemainAscend```
-    >   -  TC7. 남은 카드 대상으로 오름차순 정렬을 했을 때 제대로 수행되었는지 검사
-> - ```testIsSameCardInParticipants```
-    >   -  TC8. 참가자 중 같은 숫자 카드 3개를 가진 경우가 있는지 판단
-> - ```testIsSameCardInSpecificCase```
-    >   -  TC9. 1번 참가자와 3번 참가자 카드 중에 가장 낮은숫자 기준으로 3개가 같은지 판단
+> - ```initCard_Count_36```
+    >   TC1. 카드 생성후 갯수가 36개가 맞는지?
+> - ```initCard_Has3Type_True```
+    >   TC2. 카드 36개중에 같은 동물이 12개씩 있는지? (동물이 3종류임으로 한동물당 12개씩)
+> - ```shareCard_3ParticipantsCount_4```
+    >   TC3. 참가자 인원에 맞게 생성되는지?
+> - ```shareCard_3ParticipantsHas12_False```
+    >   TC4. 3명이 참가했을 시 participant가 12번 카드를 가지고 있으면 안됨. 가지고 있는지 검사
+> - ```shareCard_5ParticipantsCount_6```
+    >   TC5. 5명이 참가했을 시 participantList.size가 6이 맞는지?
+> - ```sortCardAscend_IsVaild_True```
+    >   TC6. A참가자를 대상으로 오름차순 정렬을 했을 때 제대로 수행되었는지 검사
+> - ```sortRemainAscend_IsValid_True```
+    >   TC7. 남은 카드 대상으로 오름차순 정렬을 했을 때 제대로 수행되었는지 검사
+> - ```isSameCardInParticipants_isValid_True```
+    >   TC8. 참가자 중 같은 숫자 카드 3개를 가진 경우가 있는지 판단
+> - ```isSameCardInSpecificCase_IsValid_True```
+    >   TC9. 1번 참가자와 3번 참가자 카드 중에 가장 낮은숫자 기준으로 3개가 같은지 판단
 > <img width="396" alt="image" src="https://github.com/softeerbootcamp-2nd/android-luckycardgame/assets/61905052/c929cf29-5749-492c-9f30-895f78444b2f">
 
+---------
+> ## 5. 게임규칙 추가하기
+> 230711 10:30 AM
+> - 새로 추가된 요구사항을 만족하기 위해 LuckyGame 클래스의 추가 메소드를 작성하였다.
+> - 카드 뒤집힘 상태를 구분하기 위해 Card 클래스에 ```var isBack: Boolean```  변수를 추가하였다.
+> - 새로 추가된 메소드를 테스트하기 위해, UnitTest를 진행하며 동작을 검증하였다.
+> ### UnitTest - LuckyGameTest.kt
+> - ```isCardCanFlip_IsValid_True```
+    >   TC1. 카드를 뒤집을 수 있는 상태인지 검증 (정렬된 상태로 가장 작은 숫자가 있는 왼쪽 또는 가장 큰 숫자가 있는 오른쪽 카드만 터치가 가능)
+> - ```isCardCanFlip_IsValid_False```
+    >   TC2. 카드를 뒤집을 수 없는 상태에서 뒤집기 동작을 했을 때 False가 나오는지 검증
+> - ```checkWhen3CardSameStatus_IsValid_True```
+    >   TC3. 1번 참가자가 같은 숫자를 3개 뽑은 상황을 구현한 뒤, 표시화면에서 사라지고 결과화면에 카드가 추가되는 상황을 검증
+> - ```checkSumDiff7_IsValid_02```
+    >   TC4. 각 참가자가 뽑은 숫자들중 합이나 차가 7이 되는 상황을 검증. 합이나 차가 7이되는 숫자를 갖고 있는 참가자 번호를 리턴함
+> - ```checkSumDiff7_IsValid_1010```
+    >   TC5. 각 참가자가 뽑은 숫자들중 합이나 차가 7이 되지 않는 상황에서, False를 뜻하는 (10,10)이 나오는지 검증
+> - ```checkFinishState_When1and8_02```
+    >   TC6. 1번참가자가 1을 모았고 3번참가자가 8을 모아서 종료조건이 되었고, 승리자가 1,3번 참가자로 나오는지 검증
+> - ```checkFinishState_When7_0```
+    >   TC7. 1번참가자가 7을 모아서 게임이 바로 끝나는 상황을 검증. 승리자는 1번참가자로 나와야함.
+> <img width="398" alt="스크린샷 2023-07-11 오전 10 39 35" src="https://github.com/softeerbootcamp-2nd/android-luckycardgame/assets/61905052/cc01a0a5-2fbe-49d1-a811-c5798d765ec7">
