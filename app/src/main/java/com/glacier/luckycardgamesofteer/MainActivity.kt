@@ -94,30 +94,30 @@ class MainActivity : AppCompatActivity() {
     fun setCardRecyclerView(cardList: MutableList<Card>, numOfParticipants: Int) {
         val participants = shareCard(cardList, numOfParticipants)
 
-        binding.rv1.apply {
+        with(binding.rv1) {
             layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
             adapter = CardAdapter(participants[0].getCards(), true)
         }
 
-        binding.rv2.apply {
+        with(binding.rv2) {
             layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
             adapter = CardAdapter(participants[1].getCards(), false)
         }
 
-        binding.rv3.apply {
+        with(binding.rv3) {
             layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
             adapter = CardAdapter(participants[2].getCards(), false)
         }
 
         if (numOfParticipants >= 4) {
-            binding.rv4.apply {
+            with(binding.rv4) {
                 layoutManager =
                     LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
                 adapter = CardAdapter(participants[3].getCards(), false)
             }
         }
         if (numOfParticipants == 5) {
-            binding.rv5.apply {
+            with(binding.rv5) {
                 layoutManager =
                     LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
                 adapter = CardAdapter(participants[4].getCards(), false)
@@ -125,7 +125,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // 남은카드 리사이클러뷰는 갯수에따라 spancount나 layout이 달라져야함
-        binding.rv0.apply {
+        with(binding.rv0) {
             when (numOfParticipants) {
                 3 -> layoutManager = GridLayoutManager(applicationContext, 5)
                 4 -> layoutManager = GridLayoutManager(applicationContext, 4)
