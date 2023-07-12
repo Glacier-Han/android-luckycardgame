@@ -12,15 +12,13 @@ import com.glacier.luckycardgamesofteer.LuckyGame
 import com.glacier.luckycardgamesofteer.databinding.ItemCardBinding
 import com.glacier.luckycardgamesofteer.listener.OnCardFilpedListener
 import com.glacier.luckycardgamesofteer.model.Card
+import kotlin.random.Random
 
 
-class CardAdapter(luckyGame: LuckyGame, participantNum: Int, listener: OnCardFilpedListener) :
+class CardAdapter(val luckyGame: LuckyGame, val participantNum: Int, val listener: OnCardFilpedListener) :
     RecyclerView.Adapter<CardAdapter.ViewHolder>() {
 
     private val cards = luckyGame.participantList[participantNum].getCards()
-    private val participantNum = participantNum
-    private val luckyGame = luckyGame
-    private val listener = listener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -31,20 +29,20 @@ class CardAdapter(luckyGame: LuckyGame, participantNum: Int, listener: OnCardFil
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val card = cards[position]
         holder.bind(card)
+
     }
 
     override fun getItemCount(): Int {
         return cards.size
     }
 
-
     inner class ViewHolder(private val binding: ItemCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(card: Card) {
 
-            if (card.isBack) {
-                setCardBack(binding)
-            } else {
+            setCardBack(binding)
+
+            if (!card.isBack) {
                 setCardFront(binding, card)
             }
 
@@ -54,13 +52,13 @@ class CardAdapter(luckyGame: LuckyGame, participantNum: Int, listener: OnCardFil
                         card.isBack = false
                         luckyGame.filpCard(participantNum, adapterPosition)
                         listener.onCardFilped(card, participantNum, adapterPosition)
-                        setCardFront(binding, card)
+                        setCardFrontWithAnimation(binding, card)
                     }
                 }
             }
 
-
         }
+
     }
 
     fun setCardBack(binding: ItemCardBinding) {
@@ -71,21 +69,24 @@ class CardAdapter(luckyGame: LuckyGame, participantNum: Int, listener: OnCardFil
     }
 
     fun setCardFront(binding: ItemCardBinding, card: Card) {
+        binding.ivBack.visibility = View.GONE
+        binding.tvAnimal.visibility = View.VISIBLE
+        binding.tvNumBottom.visibility = View.VISIBLE
+        binding.tvNumTop.visibility = View.VISIBLE
+
+        binding.tvAnimal.text = card.animalType.unicode
+        binding.tvNumBottom.text = card.num.toString()
+        binding.tvNumTop.text = card.num.toString()
+    }
+
+    fun setCardFrontWithAnimation(binding: ItemCardBinding, card: Card) {
         val rotationY = ObjectAnimator.ofFloat(binding.itemView, "rotationY", -180f, 0f)
         rotationY.duration = 500 // Set the duration of the animation (in milliseconds)
         rotationY.start() // Start the animation
 
         Handler(Looper.getMainLooper()).postDelayed({
-            binding.ivBack.visibility = View.GONE
-            binding.tvAnimal.visibility = View.VISIBLE
-            binding.tvNumBottom.visibility = View.VISIBLE
-            binding.tvNumTop.visibility = View.VISIBLE
-
-            binding.tvAnimal.text = card.animalType.unicode
-            binding.tvNumBottom.text = card.num.toString()
-            binding.tvNumTop.text = card.num.toString()
+            setCardFront(binding, card)
         }, 250)
 
     }
-
 }

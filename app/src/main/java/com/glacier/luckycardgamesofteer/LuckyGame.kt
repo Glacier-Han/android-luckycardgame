@@ -70,12 +70,14 @@ class LuckyGame {
 
         // 남은 카드 따로 모으기
         val remainCards = Participant("0")
+        val remainResultCards = Participant("0")
 
         // 마지막으로 남은 카드들을 저장
-        remainCards.addAllCard(cardList.take(numOfRemainCards))
+        remainCards.addAllCard(cardList.take(numOfRemainCards).sortedBy { it.num })
 
         // 남은 카드 또한 참가자 리스트에 넣고 최종 리턴
         participantList.add(remainCards)
+        participantResultList.add(remainResultCards)
         //remainCards.showCards()
     }
 
@@ -145,6 +147,10 @@ class LuckyGame {
         participantList[participantNum].getCards()[cardIndex].isBack = false
     }
 
+    fun filpCardAgain(participantNum: Int, cardIndex: Int) {
+        participantList[participantNum].getCards()[cardIndex].isBack = true
+    }
+
     // 정렬된 상태로 가장 작은 숫자가 있는 왼쪽 또는 가장 큰 숫자가 있는 오른쪽 카드만 터치가 가능하다.
     // 만약 가장 오른쪽 카드를 뒤집어서 앞면이 보이는 상태에서는 그 다음 숫자도 터치 가능하다
     fun isCardCanFilp(participantNum: Int, cardIndex: Int): Boolean {
@@ -176,11 +182,30 @@ class LuckyGame {
     }
 
     // 3장의 카드가 똑같은 걸 뽑으면 결과리스트에 추가 및 기존 리스트에서 제거
-    fun setResultCard(cards: MutableList<Card>, participantNum: Int) {
+    fun setResultCard(cards: MutableList<Card>, participantNum: Int): Boolean {
         if (is3CardIsSame(cards)) {
-            participantList[participantNum].removeCards(cards)
+            // 뽑은 카드를 전체 참가자 카드리스트 중에서 찾아서 삭제함
+            for(participant in participantList){
+                participant.removeCards(cards)
+            }
             participantResultList[participantNum].addAllCard(cards)
+            return true
         }
+        else {
+            return false
+        }
+    }
+
+    fun isAllCardFilped(): Boolean {
+        var isAllFilped = true
+        for (participant in participantList) {
+            for (card in participant.getCards()) {
+                if (card.isBack) {
+                    isAllFilped = false
+                }
+            }
+        }
+        return isAllFilped
     }
 
     /*
@@ -196,11 +221,13 @@ class LuckyGame {
         val sumdiffCheckList = mutableListOf<Int>()
         for (participant in participantResultList) {
             val cards = participant.getCards()
-            if (cards[0].num == 7) {
-                isFinishStatus = true
-                return listOf(participantResultList.indexOf(participant))
-            } else {
-                sumdiffCheckList.add(cards[0].num)
+            if(cards.isNotEmpty()){
+                if (cards[0].num == 7) {
+                    isFinishStatus = true
+                    return listOf(participantResultList.indexOf(participant))
+                } else {
+                    sumdiffCheckList.add(cards[0].num)
+                }
             }
         }
 

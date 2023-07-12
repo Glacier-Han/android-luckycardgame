@@ -1,8 +1,11 @@
 package com.glacier.luckycardgamesofteer.model
 
+import android.os.Parcel
+import android.os.Parcelable
 import android.util.Log
+import java.io.Serializable
 
-class Participant(private val name: String) {
+class Participant(private val name: String) : Serializable{
     private var cards: MutableList<Card> = mutableListOf()
 
     fun addCard(card: Card) {
@@ -38,4 +41,5 @@ class Participant(private val name: String) {
             Log.d("Participant $name", c.toString())
         }
     }
+
 }
