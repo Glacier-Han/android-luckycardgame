@@ -41,7 +41,6 @@ class MainActivity : AppCompatActivity(), OnCardFilpedListener {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        // 럭키 게임 객체 생성
         luckyGame = LuckyGame()
         init()
 
@@ -139,7 +138,7 @@ class MainActivity : AppCompatActivity(), OnCardFilpedListener {
         }
         // 처음 키면 첫번째 옵션으로
         binding.mbToggle.check(R.id.btn_3people)
-        Snackbar.make(binding.root, "A 차례입니다. 카드 3개를 뽑으세요.", Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(binding.root, "A 차례입니다. 카드 3개를 뽑으세요.", Snackbar.LENGTH_LONG).show()
 
     }
 
@@ -242,7 +241,7 @@ class MainActivity : AppCompatActivity(), OnCardFilpedListener {
             4 -> "E"
             else -> "A"
         }
-        Snackbar.make(binding.root, "$turnString 차례입니다. 카드 3개를 뽑으세요.", Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(binding.root, "$turnString 차례입니다. 카드 3개를 뽑으세요.", Snackbar.LENGTH_LONG).show()
     }
 
     private fun initFilpedMap(participantNum: Int) {

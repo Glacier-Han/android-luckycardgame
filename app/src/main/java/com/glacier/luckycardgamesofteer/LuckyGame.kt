@@ -185,13 +185,12 @@ class LuckyGame {
     fun setResultCard(cards: MutableList<Card>, participantNum: Int): Boolean {
         if (is3CardIsSame(cards)) {
             // 뽑은 카드를 전체 참가자 카드리스트 중에서 찾아서 삭제함
-            for(participant in participantList){
+            for (participant in participantList) {
                 participant.removeCards(cards)
             }
             participantResultList[participantNum].addAllCard(cards)
             return true
-        }
-        else {
+        } else {
             return false
         }
     }
@@ -218,13 +217,13 @@ class LuckyGame {
         val sumdiffCheckList = mutableListOf<Int>()
         for (participant in participantResultList) {
             val cards = participant.getCards()
-            if(cards.isNotEmpty()){
-                if (cards[0].num == 7) {
+            if (cards.isNotEmpty()) {
+                if (cards.any { it.num == 7 }) {
                     return listOf(participantResultList.indexOf(participant))
                 } else {
-                    sumdiffCheckList.add(cards[0].num)
+                    sumdiffCheckList.add(cards[cards.lastIndex].num)
                 }
-            }else{
+            } else {
                 sumdiffCheckList.add(0)
             }
         }

@@ -44,7 +44,7 @@ class ResultActivity : AppCompatActivity() {
 
     }
 
-    fun setRecyclerView(winnerDB: ArrayList<Participant>) {
+    private fun setRecyclerView(winnerDB: ArrayList<Participant>) {
         try {
             with(binding.rv1) {
                 layoutManager =
@@ -79,7 +79,7 @@ class ResultActivity : AppCompatActivity() {
         }
     }
 
-    fun setWinnerRvHighlight(winners: ArrayList<Int>) {
+    private fun setWinnerRvHighlight(winners: ArrayList<Int>) {
         for (winner in winners) {
             when (winner) {
                 0 -> binding.cv1.setCardBackgroundColor(Color.parseColor("#FF66CC"))
@@ -91,11 +91,11 @@ class ResultActivity : AppCompatActivity() {
         }
     }
 
-    fun convertNumbersToLetters(numbers: ArrayList<Int>): List<String> {
+    private fun convertNumbersToLetters(numbers: ArrayList<Int>): List<String> {
         return numbers.map { convertNumberToLetter(it) }
     }
 
-    fun convertNumberToLetter(number: Int): String {
+    private fun convertNumberToLetter(number: Int): String {
         return when (number) {
             0 -> "A"
             1 -> "B"

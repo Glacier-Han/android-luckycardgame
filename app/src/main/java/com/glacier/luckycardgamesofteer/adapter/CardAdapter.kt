@@ -15,7 +15,11 @@ import com.glacier.luckycardgamesofteer.model.Card
 import kotlin.random.Random
 
 
-class CardAdapter(val luckyGame: LuckyGame, val participantNum: Int, val listener: OnCardFilpedListener) :
+class CardAdapter(
+    val luckyGame: LuckyGame,
+    val participantNum: Int,
+    val listener: OnCardFilpedListener
+) :
     RecyclerView.Adapter<CardAdapter.ViewHolder>() {
 
     private val cards = luckyGame.participantList[participantNum].getCards()

@@ -86,3 +86,24 @@ Android 학습 프로젝트 #1
 > - ```checkFinishState_When7_0```
     >   TC7. 1번참가자가 7을 모아서 게임이 바로 끝나는 상황을 검증. 승리자는 1번참가자로 나와야함.
 > <img width="398" alt="스크린샷 2023-07-11 오전 10 39 35" src="https://github.com/softeerbootcamp-2nd/android-luckycardgame/assets/61905052/cc01a0a5-2fbe-49d1-a811-c5798d765ec7">
+---------
+> ## 6. 결과화면 만들기
+> 230713 11:30 AM
+> - 참가자들이 한 턴씩 돌아가면서 카드를 3개씩 뽑고, 게임이 끝나면 보여줄 결과화면을 제작하였다.
+> - LuckyGame 클래스에 5번 과정에서 구현한 메소드들을 적극적으로 사용하여 게임 전체 로직을 구현하였다.
+> - 참가자들이 3개의 카드를 뽑고, 다음 턴으로 넘기는 과정을 구현하기 위해 mutableMapOf<Int, Int>()를 사용하였다.
+> - 참가자 번호와 각 참가자당 뽑은 횟수를 Map 자료형으로 관리하고, 현재 턴 참가자도 Int형 변수로 따로 관리하여 게임로직을 운영하였다.
+> - LuckyGame 클래스에 현재 참가자별 카드보유상황을 모두 기록하고 있는 participantList와, 현재 참가자별 결과를 모두 기록하고 있는 participantResultList를 따로 관리하였다.
+> - 같은 카드를 3개 뽑는 순간 setResult 함수를 실행하여 participantList에서 해당 카드를 찾아 삭제하고, participantResultList 에서 카드를 뽑은 참가자에 해당하는 번호에 3개의 카드를 추가시킨다.
+> - 한 턴이 돌때 마다 checkFinishState 함수를 실행하여 종료조건임을 판단하고, 종료조건이 되었을 경우 결과화면으로 넘긴다.
+> - 결과화면으로 넘길 때 Intent로 여러가지 정보를 전달한다.
+>   - ```isWinner```: ```Boolean```
+>   - ```WinnerList```: ```ArrayList<Int>```
+>   - ```WinnerDB```:```ArrayList<Participant>```
+> - 이렇게 객체의 리스트를 전달하려고 Participant에 Serializable를 상속하였다.
+> 
+> - 아래는 결과화면. 여러가지 승자가 나올 수 있는 State를 테스트하였다. (빠른 테스트를 위하여 CardList의 Shuffle은 진행하지 않았다)
+![1](https://github.com/softeerbootcamp-2nd/android-luckycardgame/assets/61905052/c5f8f75c-fd24-4618-bd1a-183c1920564c) | ![3](https://github.com/softeerbootcamp-2nd/android-luckycardgame/assets/61905052/9c744b47-1927-4658-b412-af434da40e55) | ![4](https://github.com/softeerbootcamp-2nd/android-luckycardgame/assets/61905052/470b3b97-13ec-4c2b-8f13-0dbb4b71cd14)
+--- | --- | --- |
+![5](https://github.com/softeerbootcamp-2nd/android-luckycardgame/assets/61905052/ab082235-19ed-4940-b703-08d6b947857d) | ![6](https://github.com/softeerbootcamp-2nd/android-luckycardgame/assets/61905052/5c111b48-1432-40ab-b7b0-fc8878ae807a) | ![7](https://github.com/softeerbootcamp-2nd/android-luckycardgame/assets/61905052/c0c9ac25-a614-4ea7-b38a-01c767ea72ff)
+--- | --- | --- |
