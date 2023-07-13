@@ -102,8 +102,8 @@ Android 학습 프로젝트 #1
 >   - ```WinnerDB```:```ArrayList<Participant>```
 > - 이렇게 객체의 리스트를 전달하려고 Participant에 Serializable를 상속하였다.
 > 
-> - 아래는 결과화면. 여러가지 승자가 나올 수 있는 State를 테스트하였다. (빠른 테스트를 위하여 CardList의 Shuffle은 진행하지 않았다)
-![1](https://github.com/softeerbootcamp-2nd/android-luckycardgame/assets/61905052/c5f8f75c-fd24-4618-bd1a-183c1920564c) | ![3](https://github.com/softeerbootcamp-2nd/android-luckycardgame/assets/61905052/9c744b47-1927-4658-b412-af434da40e55) | ![4](https://github.com/softeerbootcamp-2nd/android-luckycardgame/assets/61905052/470b3b97-13ec-4c2b-8f13-0dbb4b71cd14)
---- | --- | --- |
-![5](https://github.com/softeerbootcamp-2nd/android-luckycardgame/assets/61905052/ab082235-19ed-4940-b703-08d6b947857d) | ![6](https://github.com/softeerbootcamp-2nd/android-luckycardgame/assets/61905052/5c111b48-1432-40ab-b7b0-fc8878ae807a) | ![7](https://github.com/softeerbootcamp-2nd/android-luckycardgame/assets/61905052/c0c9ac25-a614-4ea7-b38a-01c767ea72ff)
---- | --- | --- |
+>- 아래는 결과화면. 여러가지 승자가 나올 수 있는 State를 테스트하였다. (빠른 테스트를 위하여 CardList의 Shuffle은 진행하지 않았다)
+   ![1](https://github.com/softeerbootcamp-2nd/android-luckycardgame/assets/61905052/c5f8f75c-fd24-4618-bd1a-183c1920564c) | ![3](https://github.com/softeerbootcamp-2nd/android-luckycardgame/assets/61905052/9c744b47-1927-4658-b412-af434da40e55) | ![4](https://github.com/softeerbootcamp-2nd/android-luckycardgame/assets/61905052/470b3b97-13ec-4c2b-8f13-0dbb4b71cd14)
+   --- | --- | --- |
+   ![5](https://github.com/softeerbootcamp-2nd/android-luckycardgame/assets/61905052/ab082235-19ed-4940-b703-08d6b947857d) | ![6](https://github.com/softeerbootcamp-2nd/android-luckycardgame/assets/61905052/5c111b48-1432-40ab-b7b0-fc8878ae807a) | ![7](https://github.com/softeerbootcamp-2nd/android-luckycardgame/assets/61905052/c0c9ac25-a614-4ea7-b38a-01c767ea72ff)
+   --- | --- | --- |
