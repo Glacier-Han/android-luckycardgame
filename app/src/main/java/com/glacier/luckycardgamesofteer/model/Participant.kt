@@ -3,7 +3,7 @@ package com.glacier.luckycardgamesofteer.model
 import android.util.Log
 
 class Participant(private val name: String) {
-    private val cards: MutableList<Card> = mutableListOf()
+    private var cards: MutableList<Card> = mutableListOf()
 
     fun addCard(card: Card) {
         cards.add(card)
@@ -19,6 +19,10 @@ class Participant(private val name: String) {
 
     fun getCards(): List<Card> {
         return cards
+    }
+
+    fun setCards(cards_: MutableList<Card>){
+        this.cards = cards_
     }
 
     fun getCardCount(): Int{
