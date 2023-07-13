@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity(), OnCardFilpedListener {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        // 럭키 게임 객체 생성
         luckyGame = LuckyGame()
         init()
 
