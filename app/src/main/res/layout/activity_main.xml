@@ -98,12 +98,6 @@
                 android:orientation="horizontal"
                 android:paddingHorizontal="5dp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:paddingHorizontal="3dp" />
 
         </androidx.cardview.widget.CardView>
 
@@ -135,12 +129,6 @@
                 android:orientation="horizontal"
                 android:paddingHorizontal="5dp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:paddingHorizontal="3dp" />
 
         </androidx.cardview.widget.CardView>
 
@@ -172,12 +160,6 @@
                 android:orientation="horizontal"
                 android:paddingHorizontal="5dp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:paddingHorizontal="3dp" />
 
         </androidx.cardview.widget.CardView>
 
@@ -209,12 +191,6 @@
                 android:orientation="horizontal"
                 android:paddingHorizontal="5dp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:paddingHorizontal="3dp" />
 
         </androidx.cardview.widget.CardView>
 
@@ -245,13 +221,6 @@
                 android:layout_gravity="center"
                 android:orientation="horizontal"
                 android:paddingHorizontal="5dp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_5"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:paddingHorizontal="3dp" />
 
         </androidx.cardview.widget.CardView>
 
