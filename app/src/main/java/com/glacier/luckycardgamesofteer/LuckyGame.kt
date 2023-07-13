@@ -213,28 +213,25 @@ class LuckyGame {
         누군가 한 명이 7을 모아도 끝나고, A와 B가 각각 1과 8을 모았어도 끝난다.
     */
 
-    // TODO:: 종료조건 및 isSumDiff 리턴을 List로 수정해야함
+    // 종료조건 체크 및 종료조건일 경우 승리자 리스트를 리턴함
     fun checkFinishStatus(): List<Int> {
-        val winnerList = mutableListOf<Participant>()
-        var isFinishStatus = false
-
         val sumdiffCheckList = mutableListOf<Int>()
         for (participant in participantResultList) {
             val cards = participant.getCards()
             if(cards.isNotEmpty()){
                 if (cards[0].num == 7) {
-                    isFinishStatus = true
                     return listOf(participantResultList.indexOf(participant))
                 } else {
                     sumdiffCheckList.add(cards[0].num)
                 }
+            }else{
+                sumdiffCheckList.add(0)
             }
         }
-
         return isSumDiffIs7(sumdiffCheckList)
     }
 
-    // 모은 카드 숫자 합 또는 차가 7이면 True
+    // 모은 카드 숫자 합 또는 차가 7이면 해당 참가자 인덱스 리턴
     fun isSumDiffIs7(cardList: List<Int>): List<Int> {
         for (i in 0 until cardList.size - 1) {
             for (j in i + 1 until cardList.size) {
