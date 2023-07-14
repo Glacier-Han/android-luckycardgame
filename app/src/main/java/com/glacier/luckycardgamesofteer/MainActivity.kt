@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity(), OnCardFilpedListener {
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private lateinit var luckyGame: LuckyGame
-
+  
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -145,6 +145,7 @@ class MainActivity : AppCompatActivity(), OnCardFilpedListener {
                 5 -> layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
             }
             adapter = CardAdapter(luckyGame,numOfParticipants,this@MainActivity)
+
         }
     }
 
@@ -156,6 +157,7 @@ class MainActivity : AppCompatActivity(), OnCardFilpedListener {
 
     override fun onCardFilped(card: Card, participantNum: Int, cardIndex: Int) {
         // TODO : 카드 뒤집을 때 마다 각 Turn마다 참가자당 3번씩 누르는걸 감지하고 결과체크를 해야함
+
     }
 
 }

@@ -37,7 +37,6 @@ class CardAdapter(luckyGame: LuckyGame, participantNum: Int, listener: OnCardFil
         return cards.size
     }
 
-
     inner class ViewHolder(private val binding: ItemCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(card: Card) {
@@ -57,6 +56,7 @@ class CardAdapter(luckyGame: LuckyGame, participantNum: Int, listener: OnCardFil
                         setCardFront(binding, card)
                     }
                 }
+
             }
 
 

@@ -98,7 +98,6 @@
                 android:orientation="horizontal"
                 android:paddingHorizontal="5dp" />
 
-
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -128,7 +127,6 @@
                 android:layout_gravity="center"
                 android:orientation="horizontal"
                 android:paddingHorizontal="5dp" />
-
 
         </androidx.cardview.widget.CardView>
 
@@ -160,7 +158,6 @@
                 android:orientation="horizontal"
                 android:paddingHorizontal="5dp" />
 
-
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -190,7 +187,6 @@
                 android:layout_gravity="center"
                 android:orientation="horizontal"
                 android:paddingHorizontal="5dp" />
-
 
         </androidx.cardview.widget.CardView>
 

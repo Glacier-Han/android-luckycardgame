@@ -1,5 +1,4 @@
 package com.glacier.luckycardgamesofteer
-
 import com.glacier.luckycardgamesofteer.model.Animal
 import com.glacier.luckycardgamesofteer.model.Card
 import com.glacier.luckycardgamesofteer.model.Participant
@@ -13,6 +12,7 @@ class LuckyGame {
     val participantResultList = mutableListOf<Participant>()
 
     fun initCard() {
+
         // 12개의 전체 카드 객체를 저장하기 위한 MutableList 선언
 
         cardList.clear()
@@ -33,6 +33,7 @@ class LuckyGame {
 
         // 3명일때는 12번 카드는 제외시켜야함.
         if (numOfParticipants == 3) {
+
             cardList = cardList.filter { it.num != 12 } as MutableList<Card>
         }
 
@@ -41,6 +42,7 @@ class LuckyGame {
             // 참가자 객체 생성
             val participant = Participant(i.toString())
             val participantResult = Participant(i.toString())
+
 
             // 총 참가자 수에 따라 나누어 주는 카드 갯수가 다르기 때문에 분기
             val numCardsPerParticipant = when (numOfParticipants) {
@@ -57,6 +59,7 @@ class LuckyGame {
             // 참가자 생성 후 참가자 리스트에 추가함
             participantList.add(participant)
             participantResultList.add(participantResult)
+
             //participant.showCards()
         }
 
@@ -100,6 +103,7 @@ class LuckyGame {
         for (participant in participantList.dropLast(1)) {
             val isSameInParticipant = checkThreeSameNumber(participant.getCards())
             if (isSameInParticipant) result = true
+
         }
 
         return result
@@ -137,7 +141,6 @@ class LuckyGame {
 
         return false
     }
-
 
     // TODO 게임메소드 추가
     // 선택한 카드 뒤집기

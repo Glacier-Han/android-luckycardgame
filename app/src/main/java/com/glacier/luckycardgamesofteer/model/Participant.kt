@@ -28,7 +28,7 @@ class Participant(private val name: String) {
     fun removeCards(cards_: MutableList<Card>){
         this.cards.removeAll(cards_)
     }
-
+    
     fun getCardCount(): Int{
         return cards.size
     }
