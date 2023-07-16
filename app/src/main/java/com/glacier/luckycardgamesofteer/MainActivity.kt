@@ -13,16 +13,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.glacier.luckycardgamesofteer.adapter.CardAdapter
 import com.glacier.luckycardgamesofteer.databinding.ActivityMainBinding
+import com.glacier.luckycardgamesofteer.listener.OnCardFilpedListener
 import com.glacier.luckycardgamesofteer.model.Animal
 import com.glacier.luckycardgamesofteer.model.Card
 import com.glacier.luckycardgamesofteer.model.Participant
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnCardFilpedListener {
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private lateinit var luckyGame: LuckyGame
-
+  
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         val spaceDeco = object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
                 when(state.itemCount){
-                    7 -> outRect.set(30, 10, 30, 10)
+                    8 -> outRect.set(30, 10, 30, 10)
                     9 -> outRect.set(10,10,10,10)
                 }
             }
@@ -110,29 +111,29 @@ class MainActivity : AppCompatActivity() {
         // recyclerview 어댑터 설정
         with(binding.rv1) {
             layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
-            adapter = CardAdapter(luckyGame.participantList[0].getCards(), true)
+            adapter = CardAdapter(luckyGame, 0, this@MainActivity)
         }
 
         with(binding.rv2) {
             layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
-            adapter = CardAdapter(luckyGame.participantList[1].getCards(), false)
+            adapter = CardAdapter(luckyGame, 1,this@MainActivity)
         }
 
         with(binding.rv3) {
             layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
-            adapter = CardAdapter(luckyGame.participantList[2].getCards(), false)
+            adapter = CardAdapter(luckyGame, 2,this@MainActivity)
         }
 
         if (numOfParticipants >= 4){
             with(binding.rv4) {
                 layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
-                adapter = CardAdapter(luckyGame.participantList[3].getCards(), false)
+                adapter = CardAdapter(luckyGame,3,this@MainActivity)
             }
         }
         if (numOfParticipants == 5){
             with(binding.rv5) {
                 layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
-                adapter = CardAdapter(luckyGame.participantList[4].getCards(), false)
+                adapter = CardAdapter(luckyGame,4,this@MainActivity)
             }
         }
 
@@ -143,7 +144,8 @@ class MainActivity : AppCompatActivity() {
                 4 -> layoutManager = GridLayoutManager(applicationContext, 4)
                 5 -> layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
             }
-            adapter = CardAdapter(luckyGame.participantList[3].getCards(), false)
+            adapter = CardAdapter(luckyGame,numOfParticipants,this@MainActivity)
+
         }
     }
 
@@ -151,6 +153,11 @@ class MainActivity : AppCompatActivity() {
         val cvendLp = view.layoutParams as LinearLayout.LayoutParams
         cvendLp.weight = weight
         view.layoutParams = cvendLp
+    }
+
+    override fun onCardFilped(card: Card, participantNum: Int, cardIndex: Int) {
+        // TODO : 카드 뒤집을 때 마다 각 Turn마다 참가자당 3번씩 누르는걸 감지하고 결과체크를 해야함
+
     }
 
 }

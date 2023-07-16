@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!-- card_item.xml -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_view"
     android:layout_width="60dp"
     android:layout_height="90dp"
     android:layout_gravity="center"
@@ -12,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|start"
         android:layout_margin="8dp"
+        android:text=""
         android:textSize="12dp"
         android:textStyle="bold" />
 
@@ -21,6 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="8dp"
+        android:text=""
         android:textSize="20dp"
         android:textStyle="bold" />
 
@@ -30,6 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="8dp"
+        android:text=""
         android:textSize="12dp"
         android:textStyle="bold" />
 
