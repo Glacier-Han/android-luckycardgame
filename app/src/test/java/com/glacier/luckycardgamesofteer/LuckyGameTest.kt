@@ -266,5 +266,4 @@ class LuckyGameTest {
 
         assertEquals(listOf(0), luckyGame.checkFinishStatus())
     }
-
 }

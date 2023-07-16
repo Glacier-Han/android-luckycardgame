@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity(), OnCardFilpedListener {
     private var flipCount = 0 // 현재 차례의 뒤집은 카드 횟수를 나타내는 변수
     private var totalFilpCount = 0 // 현재 게임에서 카드를 총 뒤집은 횟수 (종료 판단)
     private val currentTurnCards = mutableListOf<Card>() // 현재차례 참가자가 뽑은 3개의 카드
-
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -136,7 +136,6 @@ class MainActivity : AppCompatActivity(), OnCardFilpedListener {
                 }
             }
         }
-        // 처음 키면 첫번째 옵션으로
         binding.mbToggle.check(R.id.btn_3people)
         Snackbar.make(binding.root, "A 차례입니다. 카드 3개를 뽑으세요.", Snackbar.LENGTH_LONG).show()
 

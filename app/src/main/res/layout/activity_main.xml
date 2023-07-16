@@ -34,7 +34,6 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_end="15dp" />
 
-    <!--https://github.com/material-components/material-components-android/blob/master/docs/components/Button.md#toggle-button-->
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/mb_toggle"
         android:layout_width="0dp"
@@ -47,36 +46,18 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_3people"
-            style="@style/Widget.Material3.Button.OutlinedButton.Icon"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="3명"
-            android:textColor="@color/black"
-            app:icon="@drawable/baseline_check_24"
-            app:iconGravity="textStart" />
+            style="@style/SegmentButtonStyle"
+            android:text="3명" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_4people"
-            style="@style/Widget.Material3.Button.OutlinedButton.Icon"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="4명"
-            android:textColor="@color/black"
-            app:icon="@drawable/baseline_check_24"
-            app:iconGravity="textStart" />
+            style="@style/SegmentButtonStyle"
+            android:text="4명" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_5people"
-            style="@style/Widget.Material3.Button.OutlinedButton.Icon"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="5명"
-            android:textColor="@color/black"
-            app:icon="@drawable/baseline_check_24"
-            app:iconGravity="textStart" />
+            style="@style/SegmentButtonStyle"
+            android:text="5명" />
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
     <LinearLayout

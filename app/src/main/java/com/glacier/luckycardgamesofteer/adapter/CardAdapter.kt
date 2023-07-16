@@ -59,6 +59,7 @@ class CardAdapter(
                         setCardFrontWithAnimation(binding, card)
                     }
                 }
+
             }
 
         }
